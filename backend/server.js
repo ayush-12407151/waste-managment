@@ -1,13 +1,19 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const path = require("path");
+const jwt = require("jsonwebtoken");
 const connectDB = require("./config/db");
-const User = require("./models/User");
-const Request = require("./models/Request");
-const bcrypt=require("bcrypt")
+const User = require("./models/user");
+const Request = require("./models/request");
+const bcrypt = require("bcrypt");
+
 dotenv.config();
 connectDB();
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "..", "frontend")));
 
 
 // register api
@@ -51,14 +57,69 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
+app.post("/auth/login", async (req, res) => {
+  const { email, password } = req.body;
 
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+  if (!email || !password) {
+    return res.status(400).json({
+      msg: "Email and password are required"
+    });
+  }
+
+  try {
+    const normalizedEmail = email.toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      return res.status(401).json({
+        msg: "Invalid email or password"
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        msg: "Invalid email or password"
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role
+      },
+      process.env.JWT_SECRET || "dev-secret",
+      { expiresIn: "1d" }
+    );
+
+    res.status(200).json({
+      msg: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        points: user.points
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      msg: "Server error"
+    });
+  }
 });
-
-
-app.post("/auth/login",(req,res)=>{})
 
 app.post("/api/requests",(req,res)=>{})
 app.get("/api/requests/my",(req,res)=>{})
 app.get("/api/requests/:id",(req,res)=>{})
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "index.html"));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
