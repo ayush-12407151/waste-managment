@@ -7,6 +7,7 @@ const loginTitle = document.getElementById("login-title");
 const loginCopy = document.getElementById("login-copy");
 const signupTitle = document.getElementById("signup-title");
 const signupCopy = document.getElementById("signup-copy");
+const signupTabButton = document.querySelector('.tab-button[data-tab="signup"]');
 const API_BASE_URL = "https://waste-managment-39g8.onrender.com";
 const dashboardRoutes = {
   user: "/dashboard/user/",
@@ -58,6 +59,10 @@ const syncHistory = () => {
 };
 
 const activateTab = (targetTab) => {
+  if (targetTab === "signup" && activeRole !== "user") {
+    targetTab = "login";
+  }
+
   activeTab = targetTab;
   tabButtons.forEach((item) => item.classList.remove("active"));
   forms.forEach((form) => form.classList.remove("active"));
@@ -95,6 +100,17 @@ const syncRoleUI = (role) => {
 
   if (signupCopy) {
     signupCopy.textContent = roleContent.user.signupCopy;
+  }
+
+  if (signupTabButton) {
+    const isUserSignupAvailable = selectedRole === "user";
+    signupTabButton.hidden = !isUserSignupAvailable;
+    signupTabButton.setAttribute("aria-hidden", String(!isUserSignupAvailable));
+
+    if (!isUserSignupAvailable && activeTab === "signup") {
+      activateTab("login");
+      return;
+    }
   }
 
   syncHistory();
