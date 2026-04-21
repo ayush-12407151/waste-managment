@@ -7,25 +7,54 @@ const User = require("./models/user");
 const Request = require("./models/request");
 const bcrypt = require("bcrypt");
 const {auth}=require("./auth");
-const { request } = require("http");
-dotenv.config();
-connectDB();
+
+dotenv.config({ path: path.join(__dirname, ".env") });
+
 const app = express();
-app.use(express.json())
 const PORT = process.env.PORT || 5000;
+let isDatabaseReady = false;
+const allowedRoles = new Set(["user", "worker", "admin"]);
+const normalizeRole = (role) => {
+  if (!role) {
+    return "user";
+  }
+
+  if (role === "customer") {
+    return "user";
+  }
+
+  return String(role).toLowerCase();
+};
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "frontend")));
 
+const requireDatabase = (req, res, next) => {
+  if (!isDatabaseReady) {
+    return res.status(503).json({
+      msg: "Database is not configured yet. Add MONGO_URI in backend/.env to enable auth and request APIs."
+    });
+  }
+
+  next();
+};
+
 
 // New User Registration api 
 //Pending task: 1.input validation 2.verfied registration
-app.post("/auth/register", async (req, res) => {
+app.post("/auth/register", requireDatabase, async (req, res) => {
   const { name, email, password } = req.body;
+  const normalizedRole = normalizeRole(req.body.role);
 
   if (!name || !email || !password) {
     return res.status(400).json({
       msg: "All fields are required"
+    });
+  }
+
+  if (!allowedRoles.has(normalizedRole)) {
+    return res.status(400).json({
+      msg: "Invalid role selected"
     });
   }
 
@@ -45,7 +74,8 @@ app.post("/auth/register", async (req, res) => {
     const newUser = await User.create({
       name,
       email: normalizedEmail,
-      password: hashedPassword
+      password: hashedPassword,
+      role: normalizedRole
     });
 
     res.status(201).json({
@@ -61,8 +91,9 @@ app.post("/auth/register", async (req, res) => {
 });
 
 // User Login Api
-app.post("/auth/login", async (req, res) => {
+app.post("/auth/login", requireDatabase, async (req, res) => {
   const { email, password } = req.body;
+  const selectedRole = normalizeRole(req.body.role);
 
   if (!email || !password) {
     return res.status(400).json({
@@ -88,11 +119,19 @@ app.post("/auth/login", async (req, res) => {
       });
     }
 
+    const userRole = normalizeRole(user.role);
+
+    if (selectedRole && selectedRole !== userRole) {
+      return res.status(403).json({
+        msg: `This account is registered as ${userRole}. Please choose the correct role.`
+      });
+    }
+
     const token = jwt.sign(
       {
         id: user._id,
         email: user.email,
-        role: user.role
+        role: userRole
       },
       process.env.JWT_SECRET || "dev-secret",
       { expiresIn: "1d" }
@@ -105,7 +144,7 @@ app.post("/auth/login", async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: userRole,
         points: user.points
       }
     });
@@ -117,7 +156,7 @@ app.post("/auth/login", async (req, res) => {
 });
 
 // Authenticated api for inserting a new Request
-app.post("/api/requests", auth, async (req, res) => {
+app.post("/api/requests", requireDatabase, auth, async (req, res) => {
   try {
     const userId = req.user.id;
     const {description,location,imageUrl}=req.body;
@@ -151,7 +190,7 @@ app.post("/api/requests", auth, async (req, res) => {
 });
 
 // Authenticated api for geting the request for specific user
-app.get("/api/requests/my",auth,async (req,res)=>{
+app.get("/api/requests/my", requireDatabase, auth, async (req,res)=>{
   try {
     const userId = req.user.id;
     console.log(userId)
@@ -172,7 +211,7 @@ app.get("/api/requests/my",auth,async (req,res)=>{
 })
 
 // Authenticated api for Admin to fetch all request 
-app.get("/api/requests", auth, async (req, res) => {
+app.get("/api/requests", requireDatabase, auth, async (req, res) => {
   try {
     if (req.user.role !== "admin") {
       return res.status(403).json({
@@ -199,6 +238,32 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "login.html"));
 });
+
+app.get("/login/:role", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "login.html"));
+});
+
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "login.html"));
+});
+
+app.get("/register/:role", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "login.html"));
+});
+
+const startServer = async () => {
+  isDatabaseReady = await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+
+    if (!isDatabaseReady) {
+      console.log("Running in frontend-only mode until MongoDB is configured.");
+    }
+  });
+};
+
+startServer();

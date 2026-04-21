@@ -3,88 +3,377 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Waste Management Auth</title>
+    <title>EcoPickup | Waste Management System</title>
+    <meta
+      name="description"
+      content="EcoPickup helps residents book waste pickups, report garbage spots, and support a cleaner city."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <main class="page-shell">
-      <section class="hero-panel">
-        <p class="eyebrow">City Cleanup Portal</p>
-        <h1>Log in to manage waste pickup requests faster.</h1>
-        <p class="hero-copy">
-          Track requests, monitor points, and keep neighborhood cleanup moving
-          from one simple dashboard.
-        </p>
-        <div class="hero-card">
-          <span>What you can do</span>
-          <ul>
-            <li>Submit and follow waste pickup requests</li>
-            <li>Check request status without calling support</li>
-            <li>Manage your account and community points</li>
-          </ul>
+    <header class="site-header">
+      <nav class="navbar container">
+        <a class="logo" href="/" aria-label="EcoPickup home">
+          <span class="logo-mark">E</span>
+          <span>EcoPickup</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-menu" id="nav-menu">
+          <a href="#home">Home</a>
+          <a href="#services">Services</a>
+          <a href="#track">Track Request</a>
+          <a href="#rewards">Rewards</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a href="./login.html">Login</a>
+          <a class="nav-button" href="./login.html#signup-form">Register</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-section" id="home">
+        <div class="container hero-grid">
+          <div class="hero-content reveal">
+            <p class="section-tag">Eco-friendly waste management</p>
+            <h1>Smart Waste Pickup &amp; Clean City Portal</h1>
+            <p class="hero-text">
+              Book pickups, report garbage spots, and join recycling rewards.
+            </p>
+            <div class="hero-actions">
+              <a class="primary-button" href="#services">Request Pickup</a>
+              <a class="secondary-button" href="#services">Report Waste</a>
+              <a class="ghost-button" href="#about">Learn More</a>
+            </div>
+            <div class="hero-highlights">
+              <div>
+                <strong>24/7</strong>
+                <span>Request access</span>
+              </div>
+              <div>
+                <strong>Clean</strong>
+                <span>Eco-first operations</span>
+              </div>
+              <div>
+                <strong>Track</strong>
+                <span>Status with ease</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal">
+            <div class="city-card">
+              <div class="live-map-panel">
+                <div class="map-toolbar">
+                  <div class="map-live-badge">
+                    <span class="map-live-dot"></span>
+                    <span id="map-mode-label">Tracking live location</span>
+                  </div>
+                  <button class="map-locate-button" id="use-live-location" type="button">
+                    Use my location
+                  </button>
+                </div>
+                <div class="map-controls">
+                  <label class="sr-only" for="map-location-select">Choose a location</label>
+                  <select id="map-location-select">
+                    <option value="live">Live nearby area</option>
+                    <option value="delhi">New Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="bengaluru">Bengaluru</option>
+                    <option value="kolkata">Kolkata</option>
+                  </select>
+                  <div class="map-coordinates" id="map-coordinates">Locating...</div>
+                </div>
+                <div
+                  id="waste-map"
+                  class="waste-map"
+                  role="region"
+                  aria-label="Live waste management map"
+                ></div>
+                <div class="map-legend" aria-label="Map legend">
+                  <span><i class="legend-swatch bin-swatch"></i> Dustbins</span>
+                  <span><i class="legend-swatch plant-swatch"></i> Waste plants</span>
+                  <span><i class="legend-swatch truck-swatch"></i> Pickup trucks</span>
+                </div>
+              </div>
+              <div class="city-card-content">
+                <p>
+                  Live-style area map with simulated nearby dustbins, waste plants,
+                  and collection trucks.
+                </p>
+                <div class="mini-stats">
+                  <span id="map-stats-label">Assets in view</span>
+                  <strong id="map-stats-value">Loading...</strong>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="auth-panel">
-        <div class="tabs" role="tablist" aria-label="Authentication Forms">
-          <button class="tab-button active" data-tab="login" type="button">
-            Login
-          </button>
-          <button class="tab-button" data-tab="signup" type="button">
-            Sign Up
-          </button>
+      <section class="section services-section" id="services">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="section-tag">Quick services</p>
+            <h2>Everything needed for smart city waste operations</h2>
+          </div>
+          <div class="card-grid service-grid">
+            <article class="info-card reveal">
+              <div class="card-icon">01</div>
+              <h3>Home Waste Pickup</h3>
+              <p>Schedule doorstep collection for regular household waste.</p>
+            </article>
+            <article class="info-card reveal">
+              <div class="card-icon">02</div>
+              <h3>Report Garbage Location</h3>
+              <p>Raise alerts for open dumping spots and unattended garbage.</p>
+            </article>
+            <article class="info-card reveal">
+              <div class="card-icon">03</div>
+              <h3>Recycling Program</h3>
+              <p>Join recycling drives and support responsible waste sorting.</p>
+            </article>
+            <article class="info-card reveal" id="track">
+              <div class="card-icon">04</div>
+              <h3>Track Pickup Status</h3>
+              <p>Follow your request progress from booking to completion.</p>
+            </article>
+          </div>
         </div>
+      </section>
 
-        <form id="login-form" class="auth-form active" autocomplete="on">
-          <h2>Welcome back</h2>
-          <p>Use your registered email to continue.</p>
+      <section class="section muted-section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="section-tag">How it works</p>
+            <h2>Three easy steps to keep your area clean</h2>
+          </div>
+          <div class="steps-grid">
+            <article class="step-card reveal">
+              <span class="step-number">Step 1</span>
+              <h3>Submit Request</h3>
+              <p>Choose the service and provide your waste pickup details.</p>
+            </article>
+            <article class="step-card reveal">
+              <span class="step-number">Step 2</span>
+              <h3>Team Assigns Worker</h3>
+              <p>Our system routes the task to the nearest available worker.</p>
+            </article>
+            <article class="step-card reveal">
+              <span class="step-number">Step 3</span>
+              <h3>Pickup Completed</h3>
+              <p>The waste is collected and your request status gets updated.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-          <label for="login-email">Email</label>
-          <input id="login-email" name="email" type="email" required />
+      <section class="section" id="about">
+        <div class="container split-layout">
+          <div class="section-heading reveal">
+            <p class="section-tag">Benefits</p>
+            <h2>Built for cleaner communities and easier daily use</h2>
+            <p class="section-copy">
+              EcoPickup supports a modern waste collection workflow with simple
+              tools that stay ready for future Node.js, Express.js, and MongoDB
+              integration.
+            </p>
+          </div>
+          <div class="benefits-grid">
+            <article class="benefit-card reveal">
+              <h3>Fast Pickup</h3>
+              <p>Reduce waiting time with organized collection requests.</p>
+            </article>
+            <article class="benefit-card reveal">
+              <h3>Clean Environment</h3>
+              <p>Support a healthier neighborhood through better waste control.</p>
+            </article>
+            <article class="benefit-card reveal">
+              <h3>Easy Tracking</h3>
+              <p>Know exactly where your request stands anytime.</p>
+            </article>
+            <article class="benefit-card reveal">
+              <h3>Reward Points</h3>
+              <p>Earn recycling points for responsible disposal habits.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-          <label for="login-password">Password</label>
-          <input
-            id="login-password"
-            name="password"
-            type="password"
-            required
-          />
+      <section class="section counter-section">
+        <div class="container">
+          <div class="counter-grid">
+            <article class="counter-card reveal">
+              <h3 class="counter" data-target="2450">0</h3>
+              <p>Total Pickups</p>
+            </article>
+            <article class="counter-card reveal">
+              <h3 class="counter" data-target="1800">0</h3>
+              <p>Users Registered</p>
+            </article>
+            <article class="counter-card reveal">
+              <h3 class="counter" data-target="12750">0</h3>
+              <p>Kg Waste Recycled</p>
+            </article>
+            <article class="counter-card reveal">
+              <h3 class="counter" data-target="84">0</h3>
+              <p>Areas Cleaned</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-          <button class="submit-button" type="submit">Log In</button>
-        </form>
+      <section class="section rewards-section" id="rewards">
+        <div class="container rewards-layout">
+          <div class="section-heading reveal">
+            <p class="section-tag">Recycling rewards</p>
+            <h2>Turn sustainable actions into community rewards</h2>
+          </div>
+          <div class="rewards-grid">
+            <article class="reward-card reveal">
+              <h3>Earn points for recycling</h3>
+              <p>Get points each time you submit recyclable waste properly.</p>
+            </article>
+            <article class="reward-card reveal">
+              <h3>Monthly leaderboard</h3>
+              <p>Celebrate the most active households and neighborhoods.</p>
+            </article>
+            <article class="reward-card reveal">
+              <h3>Redeem rewards later</h3>
+              <p>Save points and use them for future benefits and recognition.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-        <form id="signup-form" class="auth-form" autocomplete="on">
-          <h2>Create account</h2>
-          <p>Register once to start submitting pickup requests.</p>
+      <section class="section">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="section-tag">Testimonials</p>
+            <h2>Trusted by residents and local communities</h2>
+          </div>
+          <div class="card-grid testimonial-grid">
+            <article class="testimonial-card reveal">
+              <p>
+                “The pickup process feels simple now. I can raise a request and
+                track it without confusion.”
+              </p>
+              <h3>Riya Sharma</h3>
+              <span>Resident</span>
+            </article>
+            <article class="testimonial-card reveal">
+              <p>
+                “Reporting garbage spots became much faster, and the dashboard
+                style feels clean and professional.”
+              </p>
+              <h3>Arjun Mehta</h3>
+              <span>Community Volunteer</span>
+            </article>
+            <article class="testimonial-card reveal">
+              <p>
+                “The rewards idea encourages people to recycle more often. It is
+                a great addition for awareness.”
+              </p>
+              <h3>Neha Verma</h3>
+              <span>Recycling Member</span>
+            </article>
+          </div>
+        </div>
+      </section>
 
-          <label for="signup-name">Full name</label>
-          <input id="signup-name" name="name" type="text" required />
-
-          <label for="signup-email">Email</label>
-          <input id="signup-email" name="email" type="email" required />
-
-          <label for="signup-password">Password</label>
-          <input
-            id="signup-password"
-            name="password"
-            type="password"
-            minlength="6"
-            required
-          />
-
-          <button class="submit-button" type="submit">Create Account</button>
-        </form>
-
-        <div id="status-message" class="status-message" aria-live="polite"></div>
+      <section class="section cta-section">
+        <div class="container">
+          <div class="cta-banner reveal">
+            <div>
+              <p class="section-tag">Clean city mission</p>
+              <h2>Join the Clean City Mission Today</h2>
+            </div>
+            <a class="primary-button" href="./login.html">Get Started</a>
+          </div>
+        </div>
       </section>
     </main>
 
+    <footer class="site-footer" id="contact">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="logo footer-logo" href="/">
+            <span class="logo-mark">E</span>
+            <span>EcoPickup</span>
+          </a>
+          <p>
+            A syllabus-friendly waste management homepage ready for future
+            backend integration using Node.js, Express.js, and MongoDB.
+          </p>
+        </div>
+
+        <div>
+          <h3>Contact Info</h3>
+          <p>Email: support@ecopickup.com</p>
+          <p>Phone: +91 98765 43210</p>
+          <p>Address: Green Avenue, Clean City Zone</p>
+        </div>
+
+        <div>
+          <h3>Quick Links</h3>
+          <a href="#services">Services</a>
+          <a href="#track">Track Request</a>
+          <a href="#rewards">Rewards</a>
+          <a href="#about">About</a>
+        </div>
+
+        <div>
+          <h3>Newsletter</h3>
+          <form class="newsletter-form" id="newsletter-form">
+            <label class="sr-only" for="newsletter-email">Email address</label>
+            <input
+              id="newsletter-email"
+              type="email"
+              placeholder="Enter your email"
+              required
+            />
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="newsletter-message" id="newsletter-message" aria-live="polite"></div>
+          <div class="social-links" aria-label="Social links">
+            <a href="#" aria-label="Facebook">Fb</a>
+            <a href="#" aria-label="Instagram">In</a>
+            <a href="#" aria-label="Twitter">Tw</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
     <script src="./script.js"></script>
   </body>
 </html>

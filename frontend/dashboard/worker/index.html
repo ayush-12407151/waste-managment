@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worker Dashboard | EcoPickup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body data-role="worker">
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <a class="dashboard-brand" href="/" aria-label="EcoPickup home">
+          <span class="dashboard-brand-mark">E</span>
+          <div>
+            <strong>EcoPickup</strong>
+            <div class="dashboard-role-badge">Worker Dashboard</div>
+          </div>
+        </a>
+
+        <nav class="dashboard-nav" aria-label="Worker navigation">
+          <a class="active" href="#tasks">My Tasks</a>
+          <a href="#map">Map</a>
+          <a href="#history">History</a>
+          <a href="#performance">Performance</a>
+          <a href="#notifications">Notifications</a>
+          <a href="#profile">Profile</a>
+          <button class="dashboard-logout" id="dashboard-logout" type="button">Logout</button>
+        </nav>
+
+        <div class="sidebar-note">
+          <h3>Field Work</h3>
+          <p>Track your assigned stops, route coverage, and shift updates from one worker-focused screen.</p>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="dashboard-topbar" id="tasks">
+          <div class="topbar-copy">
+            <p>Worker operations</p>
+            <h1>Today's worker dashboard</h1>
+          </div>
+          <div class="topbar-meta">
+            <div class="topbar-date">
+              <span>Today</span>
+              <strong id="dashboard-date"></strong>
+            </div>
+            <div class="topbar-user">
+              <span id="dashboard-user-role"></span>
+              <strong id="dashboard-user-name"></strong>
+            </div>
+          </div>
+        </header>
+
+        <section class="dashboard-section metrics-grid">
+          <article class="card metric-card">
+            <small>Assigned Tasks</small>
+            <strong>18</strong>
+            <p>Pickup and cleanup tasks allocated under My Tasks.</p>
+            <div class="metric-bar"><span style="width: 72%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Completed Today</small>
+            <strong>11</strong>
+            <p>Requests already finished and confirmed during this shift.</p>
+            <div class="metric-bar"><span style="width: 61%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Performance Score</small>
+            <strong>92%</strong>
+            <p>Optimized travel and service completion score.</p>
+            <div class="metric-bar"><span style="width: 92%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Notifications</small>
+            <strong>4</strong>
+            <p>Unread shift alerts and supervisor updates.</p>
+            <div class="metric-bar"><span style="width: 48%"></span></div>
+          </article>
+        </section>
+
+        <section class="dashboard-section content-grid">
+          <article class="card" id="tasks">
+            <div class="section-heading">
+              <div>
+                <h2>My Tasks</h2>
+                <p>Stops arranged in delivery order for the shift.</p>
+              </div>
+            </div>
+            <table class="table-shell">
+              <thead>
+                <tr>
+                  <th>Stop</th>
+                  <th>Area</th>
+                  <th>Task</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>01</td>
+                  <td>Lake Colony</td>
+                  <td>Household pickup</td>
+                  <td><span class="status-pill green">Done</span></td>
+                </tr>
+                <tr>
+                  <td>02</td>
+                  <td>Market Road</td>
+                  <td>Overflow dustbin</td>
+                  <td><span class="status-pill blue">On Route</span></td>
+                </tr>
+                <tr>
+                  <td>03</td>
+                  <td>Sector 11</td>
+                  <td>Bulk collection</td>
+                  <td><span class="status-pill orange">Queued</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="card" id="map">
+            <div class="section-heading">
+              <div>
+                <h2>Map</h2>
+                <p>Shift guidance, route notes, and live area coverage.</p>
+              </div>
+            </div>
+            <div class="status-list">
+              <article>
+                <strong>Estimated route time</strong>
+                <span>3h 20m remaining across the next 7 stops.</span>
+              </article>
+              <article>
+                <strong>Traffic advisory</strong>
+                <span>Main Street is slow. Use River Link bypass after Stop 4.</span>
+              </article>
+              <article>
+                <strong>Collection priority</strong>
+                <span>Commercial waste pickup at Sector 11 should be completed before 5 PM.</span>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-section analytics-grid">
+          <article class="card" id="history">
+            <span class="card-eyebrow">History</span>
+            <h3>Completed task load</h3>
+            <div class="chart-bars">
+              <article><span style="height: 42%"></span><small>09 AM</small></article>
+              <article><span style="height: 78%"></span><small>11 AM</small></article>
+              <article><span style="height: 66%"></span><small>01 PM</small></article>
+              <article><span style="height: 38%"></span><small>03 PM</small></article>
+            </div>
+          </article>
+          <article class="card" id="performance">
+            <span class="card-eyebrow">Performance</span>
+            <h3>Shift review</h3>
+            <div class="activity-list">
+              <article>
+                <strong>Task completion rate</strong>
+                <p>86% of assigned stops were completed within the preferred route window.</p>
+              </article>
+              <article>
+                <strong>Supervisor feedback</strong>
+                <p>Upload proof photos for all bulk pickups before marking them complete.</p>
+              </article>
+              <article>
+                <strong>Efficiency score</strong>
+                <p>Fuel usage and travel timing remained within the expected shift target.</p>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-section analytics-grid">
+          <article class="card" id="notifications">
+            <span class="card-eyebrow">Notifications</span>
+            <h3>Latest alerts</h3>
+            <div class="activity-list">
+              <article>
+                <strong>Supervisor message</strong>
+                <p>Bulk waste pickup at Sector 11 has been marked high priority.</p>
+              </article>
+              <article>
+                <strong>Vehicle note</strong>
+                <p>Truck inspection passed. Tire pressure was rechecked at the depot.</p>
+              </article>
+              <article>
+                <strong>Resident response</strong>
+                <p>Two residents shared positive feedback on early collection timing.</p>
+              </article>
+            </div>
+          </article>
+          <article class="card" id="profile">
+            <span class="card-eyebrow">Profile</span>
+            <h3>Worker profile</h3>
+            <div class="mini-stat-list">
+              <article>
+                <strong>Name</strong>
+                <p id="dashboard-profile-name">Assigned field worker</p>
+              </article>
+              <article>
+                <strong>Role</strong>
+                <p id="dashboard-profile-role">worker account</p>
+              </article>
+              <article>
+                <strong>Shift</strong>
+                <p>Morning dispatch, Zone B, 8:00 AM to 5:00 PM.</p>
+              </article>
+              <article>
+                <strong>Contact status</strong>
+                <p>Available for new assignments and escalation updates.</p>
+              </article>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="/dashboard-script.js"></script>
+  </body>
+</html>

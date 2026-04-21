@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | EcoPickup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body data-role="admin">
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <a class="dashboard-brand" href="/" aria-label="EcoPickup home">
+          <span class="dashboard-brand-mark">E</span>
+          <div>
+            <strong>EcoPickup</strong>
+            <div class="dashboard-role-badge">Admin Dashboard</div>
+          </div>
+        </a>
+
+        <nav class="dashboard-nav" aria-label="Admin navigation">
+          <a class="active" href="#dashboard">Dashboard</a>
+          <a href="#requests">Requests</a>
+          <a href="#workers">Workers</a>
+          <a href="#users">Users</a>
+          <a href="#rewards">Rewards</a>
+          <a href="#reports">Reports</a>
+          <a href="#analytics">Analytics</a>
+          <a href="#settings">Settings</a>
+          <button class="dashboard-logout" id="dashboard-logout" type="button">Logout</button>
+        </nav>
+
+        <div class="sidebar-note">
+          <h3>City Operations</h3>
+          <p>Use this control center to review incoming requests, monitor workers, and track cleanup performance across the platform.</p>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="dashboard-topbar" id="dashboard">
+          <div class="topbar-copy">
+            <p>Operations overview</p>
+            <h1>Waste management command center</h1>
+          </div>
+          <div class="topbar-meta">
+            <div class="topbar-date">
+              <span>Today</span>
+              <strong id="dashboard-date"></strong>
+            </div>
+            <div class="topbar-user">
+              <span id="dashboard-user-role"></span>
+              <strong id="dashboard-user-name"></strong>
+            </div>
+          </div>
+        </header>
+
+        <section class="dashboard-section metrics-grid">
+          <article class="card metric-card">
+            <small>Total Requests</small>
+            <strong>1,248</strong>
+            <p>All service requests across active zones.</p>
+            <div class="metric-bar"><span style="width: 82%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Active Workers</small>
+            <strong>86</strong>
+            <p>Workers currently assigned to live routes.</p>
+            <div class="metric-bar"><span style="width: 68%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Registered Users</small>
+            <strong>3,412</strong>
+            <p>Residents using the pickup and reporting system.</p>
+            <div class="metric-bar"><span style="width: 74%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Rewards Issued</small>
+            <strong>924</strong>
+            <p>Points and recognition credits sent this month.</p>
+            <div class="metric-bar"><span style="width: 56%"></span></div>
+          </article>
+        </section>
+
+        <section class="dashboard-section content-grid">
+          <article class="card" id="requests">
+            <div class="section-heading">
+              <div>
+                <h2>Recent Requests</h2>
+                <p>Latest reports and pickup bookings needing review.</p>
+              </div>
+            </div>
+            <table class="table-shell">
+              <thead>
+                <tr>
+                  <th>Request</th>
+                  <th>Area</th>
+                  <th>Status</th>
+                  <th>Assigned</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>REQ-2104</td>
+                  <td>Green Avenue</td>
+                  <td><span class="status-pill orange">Pending</span></td>
+                  <td>Unassigned</td>
+                </tr>
+                <tr>
+                  <td>REQ-2103</td>
+                  <td>River Market</td>
+                  <td><span class="status-pill blue">In Progress</span></td>
+                  <td>Ravi Kumar</td>
+                </tr>
+                <tr>
+                  <td>REQ-2102</td>
+                  <td>North Block</td>
+                  <td><span class="status-pill green">Resolved</span></td>
+                  <td>Sana Ali</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="card" id="workers">
+            <div class="section-heading">
+              <div>
+                <h2>Worker Status</h2>
+                <p>Team movement and route readiness.</p>
+              </div>
+            </div>
+            <div class="status-list">
+              <article>
+                <strong>Morning route cluster</strong>
+                <span>24 workers assigned across 8 neighborhoods.</span>
+              </article>
+              <article>
+                <strong>Pickup trucks available</strong>
+                <span>14 of 18 vehicles are online and dispatch-ready.</span>
+              </article>
+              <article>
+                <strong>Escalations to review</strong>
+                <span>5 delayed requests are waiting for reassignment.</span>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-section analytics-grid" id="analytics">
+          <article class="card">
+            <span class="card-eyebrow">Analytics</span>
+            <h3>Zone performance</h3>
+            <div class="chart-bars">
+              <article><span style="height: 62%"></span><small>North</small></article>
+              <article><span style="height: 76%"></span><small>South</small></article>
+              <article><span style="height: 88%"></span><small>East</small></article>
+              <article><span style="height: 54%"></span><small>West</small></article>
+            </div>
+          </article>
+          <article class="card">
+            <span class="card-eyebrow">Reports</span>
+            <h3>Administrative actions</h3>
+            <div class="mini-stat-list">
+              <article id="users">
+                <strong>User account reviews</strong>
+                <p>12 new profiles are awaiting manual verification.</p>
+              </article>
+              <article id="rewards">
+                <strong>Rewards summary</strong>
+                <p>72 reward redemptions were approved in the last 7 days.</p>
+              </article>
+              <article id="reports">
+                <strong>Reports queue</strong>
+                <p>8 audit reports are ready for export and compliance review.</p>
+              </article>
+              <article id="settings">
+                <strong>Platform settings</strong>
+                <p>Dispatch hours, route zones, and alert thresholds can be updated here.</p>
+              </article>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="/dashboard-script.js"></script>
+  </body>
+</html>

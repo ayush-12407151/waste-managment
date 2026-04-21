@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard | EcoPickup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body data-role="user">
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <a class="dashboard-brand" href="/" aria-label="EcoPickup home">
+          <span class="dashboard-brand-mark">E</span>
+          <div>
+            <strong>EcoPickup</strong>
+            <div class="dashboard-role-badge">User Dashboard</div>
+          </div>
+        </a>
+
+        <nav class="dashboard-nav" aria-label="User navigation">
+          <a class="active" href="#dashboard">Overview</a>
+          <a href="#requests">My Requests</a>
+          <a href="#schedule">Pickup Schedule</a>
+          <a href="#rewards">Rewards</a>
+          <a href="#activity">Activity</a>
+          <button class="dashboard-logout" id="dashboard-logout" type="button">Logout</button>
+        </nav>
+
+        <div class="sidebar-note">
+          <h3>Resident Access</h3>
+          <p>Check your pickup progress, reward points, and recent cleanup activity without leaving the portal.</p>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="dashboard-topbar" id="dashboard">
+          <div class="topbar-copy">
+            <p>Resident overview</p>
+            <h1>Your clean city dashboard</h1>
+          </div>
+          <div class="topbar-meta">
+            <div class="topbar-date">
+              <span>Today</span>
+              <strong id="dashboard-date"></strong>
+            </div>
+            <div class="topbar-user">
+              <span id="dashboard-user-role"></span>
+              <strong id="dashboard-user-name"></strong>
+            </div>
+          </div>
+        </header>
+
+        <section class="dashboard-section metrics-grid">
+          <article class="card metric-card">
+            <small>Open Requests</small>
+            <strong>2</strong>
+            <p>Pickup or issue reports currently being processed.</p>
+            <div class="metric-bar"><span style="width: 44%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Completed Pickups</small>
+            <strong>19</strong>
+            <p>Successful waste collections completed for your account.</p>
+            <div class="metric-bar"><span style="width: 78%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Reward Points</small>
+            <strong>460</strong>
+            <p>Points earned through recycling and timely reporting.</p>
+            <div class="metric-bar"><span style="width: 63%"></span></div>
+          </article>
+          <article class="card metric-card">
+            <small>Area Cleanliness</small>
+            <strong>High</strong>
+            <p>Your neighborhood cleanup score remains strong this week.</p>
+            <div class="metric-bar"><span style="width: 84%"></span></div>
+          </article>
+        </section>
+
+        <section class="dashboard-section content-grid">
+          <article class="card" id="requests">
+            <div class="section-heading">
+              <div>
+                <h2>My Requests</h2>
+                <p>Recent pickup and reporting activity from your account.</p>
+              </div>
+            </div>
+            <table class="table-shell">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Request Type</th>
+                  <th>Status</th>
+                  <th>Scheduled</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>REQ-3109</td>
+                  <td>Household pickup</td>
+                  <td><span class="status-pill blue">On Route</span></td>
+                  <td>Today, 5:30 PM</td>
+                </tr>
+                <tr>
+                  <td>REQ-3091</td>
+                  <td>Overflow dustbin report</td>
+                  <td><span class="status-pill green">Resolved</span></td>
+                  <td>Yesterday</td>
+                </tr>
+                <tr>
+                  <td>REQ-3078</td>
+                  <td>Recycling pickup</td>
+                  <td><span class="status-pill green">Completed</span></td>
+                  <td>18 Apr</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="card" id="schedule">
+            <div class="section-heading">
+              <div>
+                <h2>Pickup Schedule</h2>
+                <p>Your next waste collection windows.</p>
+              </div>
+            </div>
+            <div class="status-list">
+              <article>
+                <strong>General waste</strong>
+                <span>Tuesday and Friday between 5:00 PM and 7:00 PM.</span>
+              </article>
+              <article>
+                <strong>Dry recyclables</strong>
+                <span>Saturday morning collection in your apartment block.</span>
+              </article>
+              <article>
+                <strong>Special pickup</strong>
+                <span>Book bulky items at least 24 hours before collection.</span>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-section analytics-grid">
+          <article class="card" id="rewards">
+            <span class="card-eyebrow">Rewards</span>
+            <h3>Monthly points growth</h3>
+            <div class="chart-bars">
+              <article><span style="height: 34%"></span><small>Jan</small></article>
+              <article><span style="height: 48%"></span><small>Feb</small></article>
+              <article><span style="height: 66%"></span><small>Mar</small></article>
+              <article><span style="height: 82%"></span><small>Apr</small></article>
+            </div>
+          </article>
+          <article class="card" id="activity">
+            <span class="card-eyebrow">Recent Activity</span>
+            <h3>Updates from your area</h3>
+            <div class="activity-list">
+              <article>
+                <strong>Pickup confirmed</strong>
+                <p>Your scheduled collection for Green Avenue was accepted by the route team.</p>
+              </article>
+              <article>
+                <strong>Rewards credited</strong>
+                <p>40 points were added after your recycling submission was processed.</p>
+              </article>
+              <article>
+                <strong>Area alert closed</strong>
+                <p>The garbage hotspot you reported on Market Road has been cleaned.</p>
+              </article>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="/dashboard-script.js"></script>
+  </body>
+</html>
