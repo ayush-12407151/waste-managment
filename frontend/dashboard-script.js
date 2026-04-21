@@ -25,6 +25,7 @@ const adminCompletedStatus = document.getElementById("admin-completed-status");
 const adminTotalRequestsText = document.getElementById("admin-total-requests-text");
 const adminPendingRequestsText = document.getElementById("admin-pending-requests-text");
 const adminCompletedRequestsText = document.getElementById("admin-completed-requests-text");
+const API_BASE_URL = "https://waste-managment-39g8.onrender.com";
 
 const dashboardRoutes = {
   user: "/dashboard/user/",
@@ -219,7 +220,7 @@ const loadUserRequests = async () => {
   }
 
   try {
-    const response = await fetch("/api/requests/my", {
+    const response = await fetch(`${API_BASE_URL}/api/requests/my`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -274,7 +275,7 @@ if (newRequestForm) {
     try {
       setNewRequestStatus("Submitting your request...");
 
-      const response = await fetch("/api/requests", {
+      const response = await fetch(`${API_BASE_URL}/api/requests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -403,7 +404,7 @@ const loadAdminDashboard = async () => {
   }
 
   try {
-    const requestsResponse = await fetch("/api/requests", {
+    const requestsResponse = await fetch(`${API_BASE_URL}/api/requests`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

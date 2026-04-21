@@ -10,6 +10,7 @@ const pageStatusMessage = document.getElementById("page-status-message");
 const newRequestForm = document.getElementById("new-request-form");
 const userRequestsTableBody = document.getElementById("user-requests-table-body");
 const adminRequestsTableBody = document.getElementById("admin-requests-table-body");
+const API_BASE_URL = "https://waste-managment-39g8.onrender.com";
 
 const pageRoutes = {
   user: "/dashboard/user/",
@@ -138,7 +139,7 @@ const loadMyRequestsPage = async () => {
   try {
     setPageStatus("Loading your request history...");
 
-    const response = await fetch("/api/requests/my", {
+    const response = await fetch(`${API_BASE_URL}/api/requests/my`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -207,7 +208,7 @@ const loadAdminRequestsPage = async () => {
   try {
     setPageStatus("Loading all requests for admin review...");
 
-    const response = await fetch("/api/requests", {
+    const response = await fetch(`${API_BASE_URL}/api/requests`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -285,7 +286,7 @@ if (newRequestForm) {
     try {
       setPageStatus("Submitting request...");
 
-      const response = await fetch("/api/requests", {
+      const response = await fetch(`${API_BASE_URL}/api/requests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

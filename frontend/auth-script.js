@@ -8,6 +8,7 @@ const loginTitle = document.getElementById("login-title");
 const loginCopy = document.getElementById("login-copy");
 const signupTitle = document.getElementById("signup-title");
 const signupCopy = document.getElementById("signup-copy");
+const API_BASE_URL = "https://waste-managment-39g8.onrender.com";
 const dashboardRoutes = {
   user: "/dashboard/user/",
   worker: "/dashboard/worker/",
@@ -138,7 +139,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
   try {
     setStatus("Logging you in...", "");
 
-    const response = await fetch("/auth/login", {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -174,7 +175,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
   try {
     setStatus("Creating your account...", "");
 
-    const response = await fetch("/auth/register", {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
