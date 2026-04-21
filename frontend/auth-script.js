@@ -43,6 +43,11 @@ const roleFromPath =
     : "";
 let activeTab = "login";
 
+const storeAuthSession = (token, user) => {
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
 const setStatus = (message, type) => {
   statusMessage.textContent = message;
   statusMessage.className = `status-message ${type}`;
@@ -147,8 +152,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
       throw new Error(data.msg || "Login failed");
     }
 
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    storeAuthSession(data.token, data.user);
     setStatus(`Welcome back, ${data.user.name}. You are logged in as ${data.user.role}.`, "success");
     form.reset();
     syncRoleUI(activeRole);
@@ -184,6 +188,8 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
       throw new Error(data.msg || "Signup failed");
     }
 
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setStatus(`${roleContent[activeRole].signupTitle} created successfully. You can log in now.`, "success");
     form.reset();
     syncRoleUI(activeRole);

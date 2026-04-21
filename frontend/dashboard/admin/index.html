@@ -24,14 +24,7 @@
         </a>
 
         <nav class="dashboard-nav" aria-label="Admin navigation">
-          <a class="active" href="#dashboard">Dashboard</a>
-          <a href="#requests">Requests</a>
-          <a href="#workers">Workers</a>
-          <a href="#users">Users</a>
-          <a href="#rewards">Rewards</a>
-          <a href="#reports">Reports</a>
-          <a href="#analytics">Analytics</a>
-          <a href="#settings">Settings</a>
+          <a href="/admin/requests/">Requests</a>
           <button class="dashboard-logout" id="dashboard-logout" type="button">Logout</button>
         </nav>
 
@@ -62,26 +55,26 @@
         <section class="dashboard-section metrics-grid">
           <article class="card metric-card">
             <small>Total Requests</small>
-            <strong>1,248</strong>
+            <strong id="admin-total-requests-count">0</strong>
             <p>All service requests across active zones.</p>
             <div class="metric-bar"><span style="width: 82%"></span></div>
           </article>
           <article class="card metric-card">
-            <small>Active Workers</small>
-            <strong>86</strong>
-            <p>Workers currently assigned to live routes.</p>
+            <small>Pending Requests</small>
+            <strong id="admin-pending-requests-count">0</strong>
+            <p>Requests that are waiting for review or assignment.</p>
             <div class="metric-bar"><span style="width: 68%"></span></div>
           </article>
           <article class="card metric-card">
-            <small>Registered Users</small>
-            <strong>3,412</strong>
-            <p>Residents using the pickup and reporting system.</p>
+            <small>In Progress</small>
+            <strong id="admin-in-progress-requests-count">0</strong>
+            <p>Requests that are currently being handled.</p>
             <div class="metric-bar"><span style="width: 74%"></span></div>
           </article>
           <article class="card metric-card">
-            <small>Rewards Issued</small>
-            <strong>924</strong>
-            <p>Points and recognition credits sent this month.</p>
+            <small>Completed Requests</small>
+            <strong id="admin-completed-requests-count">0</strong>
+            <p>Requests that have already been finished successfully.</p>
             <div class="metric-bar"><span style="width: 56%"></span></div>
           </article>
         </section>
@@ -91,39 +84,15 @@
             <div class="section-heading">
               <div>
                 <h2>Recent Requests</h2>
-                <p>Latest reports and pickup bookings needing review.</p>
+                <p>Open the full admin requests page to review all submitted requests in one place.</p>
               </div>
             </div>
-            <table class="table-shell">
-              <thead>
-                <tr>
-                  <th>Request</th>
-                  <th>Area</th>
-                  <th>Status</th>
-                  <th>Assigned</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>REQ-2104</td>
-                  <td>Green Avenue</td>
-                  <td><span class="status-pill orange">Pending</span></td>
-                  <td>Unassigned</td>
-                </tr>
-                <tr>
-                  <td>REQ-2103</td>
-                  <td>River Market</td>
-                  <td><span class="status-pill blue">In Progress</span></td>
-                  <td>Ravi Kumar</td>
-                </tr>
-                <tr>
-                  <td>REQ-2102</td>
-                  <td>North Block</td>
-                  <td><span class="status-pill green">Resolved</span></td>
-                  <td>Sana Ali</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="empty-note">
+              Request management is available on a dedicated admin page so the dashboard stays focused on high-level operations.
+            </div>
+            <div class="dashboard-action-row">
+              <a class="dashboard-submit-button" href="/admin/requests/">Open Admin Requests Page</a>
+            </div>
           </article>
 
           <article class="card" id="workers">
@@ -135,16 +104,16 @@
             </div>
             <div class="status-list">
               <article>
-                <strong>Morning route cluster</strong>
-                <span>24 workers assigned across 8 neighborhoods.</span>
+                <strong>Pending queue</strong>
+                <span id="admin-pending-status">Loading pending request status...</span>
               </article>
               <article>
-                <strong>Pickup trucks available</strong>
-                <span>14 of 18 vehicles are online and dispatch-ready.</span>
+                <strong>Active processing</strong>
+                <span id="admin-in-progress-status">Waiting for in-progress request totals...</span>
               </article>
               <article>
-                <strong>Escalations to review</strong>
-                <span>5 delayed requests are waiting for reassignment.</span>
+                <strong>Completed work</strong>
+                <span id="admin-completed-status">Loading completed request totals...</span>
               </article>
             </div>
           </article>
@@ -166,20 +135,20 @@
             <h3>Administrative actions</h3>
             <div class="mini-stat-list">
               <article id="users">
-                <strong>User account reviews</strong>
-                <p>12 new profiles are awaiting manual verification.</p>
+                <strong>Total request load</strong>
+                <p id="admin-total-requests-text">Loading request volume summary...</p>
               </article>
               <article id="rewards">
-                <strong>Rewards summary</strong>
-                <p>72 reward redemptions were approved in the last 7 days.</p>
+                <strong>Pending summary</strong>
+                <p id="admin-pending-requests-text">Loading pending request summary...</p>
               </article>
               <article id="reports">
-                <strong>Reports queue</strong>
-                <p>8 audit reports are ready for export and compliance review.</p>
+                <strong>Completion summary</strong>
+                <p id="admin-completed-requests-text">Loading completed request summary...</p>
               </article>
               <article id="settings">
                 <strong>Platform settings</strong>
-                <p>Dispatch hours, route zones, and alert thresholds can be updated here.</p>
+                <p id="admin-settings-text">Dispatch hours, route zones, and alert thresholds can be reviewed from this admin overview.</p>
               </article>
             </div>
           </article>

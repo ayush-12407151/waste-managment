@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Requests | EcoPickup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body data-role="user" data-page="my-requests">
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <a class="dashboard-brand" href="/" aria-label="EcoPickup home">
+          <span class="dashboard-brand-mark">E</span>
+          <div>
+            <strong>EcoPickup</strong>
+            <div class="dashboard-role-badge">User Dashboard</div>
+          </div>
+        </a>
+
+        <nav class="dashboard-nav" aria-label="User navigation">
+          <a href="/requests/new/">New Request</a>
+          <a class="active" href="/requests/my/">My Requests</a>
+          <button class="dashboard-logout" id="dashboard-logout" type="button">Logout</button>
+        </nav>
+
+        <div class="sidebar-note">
+          <h3>Resident Access</h3>
+          <p>Check your pickup progress, reward points, and recent cleanup activity without leaving the portal.</p>
+        </div>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="dashboard-topbar">
+          <div class="topbar-copy">
+            <p>User request history</p>
+            <h1>My requests</h1>
+          </div>
+          <div class="topbar-meta">
+            <div class="topbar-date">
+              <span>Today</span>
+              <strong id="dashboard-date"></strong>
+            </div>
+            <div class="topbar-user">
+              <span id="dashboard-user-role"></span>
+              <strong id="dashboard-user-name"></strong>
+            </div>
+          </div>
+        </header>
+
+        <section class="dashboard-section">
+          <article class="card">
+            <div class="section-heading">
+              <div>
+                <h2>My Request History</h2>
+                <p>This page fetches only the logged-in user's request history.</p>
+              </div>
+            </div>
+
+            <table class="table-shell">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Request Type</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody id="user-requests-table-body">
+                <tr>
+                  <td colspan="4">Loading your requests...</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p id="page-status-message" class="form-status" aria-live="polite"></p>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="/request-pages.js"></script>
+  </body>
+</html>
