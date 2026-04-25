@@ -10,7 +10,7 @@ const sendVerificationEmail = async (email, token) => {
       },
     });
 
-    const verifyUrl = `${process.env.FRONTEND_URL || 'http://localhost:5000'}/verify.html?token=${token}`;
+    const verifyUrl = `${process.env.FRONTEND_URL || 'https://waste-managmen-lpu.vercel.app'}/verify.html?token=${token}`;
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
