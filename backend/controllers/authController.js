@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const WorkerProfile = require("../models/workerProfile");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
@@ -11,7 +12,7 @@ const normalizeRole = (role) => {
 };
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ msg: "All fields are required" });
@@ -28,16 +29,21 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString("hex");
     const verificationTokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    const userRole = normalizeRole(role);
 
     const newUser = await User.create({
       name,
       email: normalizedEmail,
       password: hashedPassword,
-      role: "user",
+      role: userRole,
       isVerified: false,
       verificationToken,
       verificationTokenExpiry,
     });
+
+    if (userRole === "worker") {
+      await WorkerProfile.create({ userId: newUser._id });
+    }
 
     try {
       await sendVerificationEmail(newUser.email, verificationToken);

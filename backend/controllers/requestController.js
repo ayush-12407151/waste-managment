@@ -1,5 +1,6 @@
 const Request = require("../models/request");
 const User = require("../models/user");
+const WorkerProfile = require("../models/workerProfile");
 
 const createRequest = async (req, res) => {
   try {
@@ -177,14 +178,14 @@ const rateRequest = async (req, res) => {
 
     // Update worker's average rating
     if (request.assignedWorker) {
-      const worker = await User.findById(request.assignedWorker);
-      if (worker) {
-        const total = worker.totalRatings || 0;
-        const currentAvg = worker.averageRating || 0;
+      const workerProfile = await WorkerProfile.findOne({ userId: request.assignedWorker });
+      if (workerProfile) {
+        const total = workerProfile.totalRatings || 0;
+        const currentAvg = workerProfile.averageRating || 0;
         
-        worker.averageRating = ((currentAvg * total) + rating) / (total + 1);
-        worker.totalRatings = total + 1;
-        await worker.save();
+        workerProfile.averageRating = ((currentAvg * total) + rating) / (total + 1);
+        workerProfile.totalRatings = total + 1;
+        await workerProfile.save();
       }
     }
 

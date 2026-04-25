@@ -1,5 +1,6 @@
 const Request = require("../models/request");
 const User = require("../models/user");
+const WorkerProfile = require("../models/workerProfile");
 const { sendNotificationEmail } = require("../utils/emailService");
 
 const getAssignedTasks = async (req, res) => {
@@ -80,11 +81,13 @@ const updateAvailability = async (req, res) => {
       return res.status(400).json({ message: "Invalid availability status" });
     }
 
-    const worker = await User.findById(req.user.id);
-    worker.availability = availability;
-    await worker.save();
+    const workerProfile = await WorkerProfile.findOne({ userId: req.user.id });
+    if (!workerProfile) return res.status(404).json({ message: "Worker profile not found" });
 
-    res.json({ message: "Availability updated", availability: worker.availability });
+    workerProfile.availability = availability;
+    await workerProfile.save();
+
+    res.json({ message: "Availability updated", availability: workerProfile.availability });
   } catch (err) {
     res.status(500).json({ message: "Server Error", error: err.message });
   }
@@ -93,12 +96,21 @@ const updateAvailability = async (req, res) => {
 const getWorkerLeaderboard = async (req, res) => {
   try {
     const allWorkers = await User.find({ role: "worker", isVerified: true }).select("name email").lean();
+    
     const workersWithPerformance = await Promise.all(allWorkers.map(async (worker) => {
       const completedTasks = await Request.countDocuments({
         assignedWorker: worker._id,
         workerStatus: "Completed"
       });
-      return { ...worker, completedTasks };
+      
+      const profile = await WorkerProfile.findOne({ userId: worker._id }).lean();
+      
+      return { 
+        ...worker, 
+        completedTasks,
+        averageRating: profile ? profile.averageRating : 0,
+        totalRatings: profile ? profile.totalRatings : 0
+      };
     }));
     
     // Sort by completed tasks

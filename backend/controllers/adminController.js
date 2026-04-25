@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Request = require("../models/request");
+const WorkerProfile = require("../models/workerProfile");
 const { sendNotificationEmail, sendVerificationEmail } = require("../utils/emailService");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
@@ -13,8 +14,8 @@ const getDashboardStats = async (req, res) => {
     const pendingRequests = await Request.countDocuments({ status: "Pending" });
     const completedRequests = await Request.countDocuments({ status: "Completed" });
     
-    const availableWorkers = await User.countDocuments({ role: "worker", availability: "Available" });
-    const busyWorkers = await User.countDocuments({ role: "worker", availability: "Busy" });
+    const availableWorkers = await WorkerProfile.countDocuments({ availability: "Available" });
+    const busyWorkers = await WorkerProfile.countDocuments({ availability: "Busy" });
 
     res.json({
       totalUsers,
@@ -34,13 +35,20 @@ const getAllWorkers = async (req, res) => {
   try {
     const workers = await User.find({ role: "worker", isVerified: true }).select("-password -verificationToken").lean();
     
-    // Calculate performance (completed tasks) for each worker
+    // Calculate performance and attach profile data
     const workersWithPerformance = await Promise.all(workers.map(async (worker) => {
       const completedTasks = await Request.countDocuments({
         assignedWorker: worker._id,
         workerStatus: "Completed"
       });
-      return { ...worker, completedTasks };
+      const profile = await WorkerProfile.findOne({ userId: worker._id }).lean();
+      
+      return { 
+        ...worker, 
+        completedTasks,
+        availability: profile ? profile.availability : "Offline",
+        averageRating: profile ? profile.averageRating : 0
+      };
     }));
 
     res.json(workersWithPerformance);
