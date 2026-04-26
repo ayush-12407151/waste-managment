@@ -96,6 +96,8 @@ Create a `.env` file in the backend folder:
 PORT=5001
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+EMAIL_USER=your_email_id
+EMAIL_PASS=your_email_password
 ```
 
 ### 4️⃣ Run the project
@@ -157,13 +159,6 @@ Each stage is validated to ensure proper flow and prevent invalid transitions.
 * IoT-based smart bins
 * Route optimization
 
----
-
-## 📽️ Demo
-
-🔗 Video Link: 
-
----
 
 ## 🌐 Live Project
 
