@@ -174,6 +174,4 @@ Each stage is validated to ensure proper flow and prevent invalid transitions.
 
 ---
 
-## 📄 License
 
-This project is for educational purposes.
